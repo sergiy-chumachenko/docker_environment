@@ -1,4 +1,4 @@
-## TalentCoin Development Environment
+## Docker Development Environment
 #### Docker Environment Structure
 - WebProject - Django ver. 1.11
 - WSGI HTTP Server - Gunicorn ver. 19.8
@@ -8,7 +8,7 @@
 #### Get started
 - Clone Git repository
 ```
-git clone http://code.1000geeks.com/TALENTCOIN/Development_environment.git
+https://github.com/sergiy-chumachenko/docker_environment.git
 ```
 - Docker Installation & Configuration
 ```
@@ -18,4 +18,4 @@ sudo sh DockerInstallationStep1.sh
 - Docker Compose Installation
 ```
 sudo sh ComposeInstallationStep2.sh
-```# docker_environment
+```
