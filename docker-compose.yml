@@ -1,0 +1,49 @@
+version: '3'
+services:
+    nginx:
+        image: nginx:1.13
+        restart: always
+        container_name: ng01
+        ports:
+           - "8000:8000"
+        volumes:
+           - ./environment/myproject/static:/etc/nginx/myproject/static
+           - ./environment/config/nginx:/etc/nginx/conf.d
+        depends_on:
+           - web
+    web:
+       build:
+           context: ./environment
+           dockerfile: Dockerfile
+       restart: always
+       container_name: dg01
+       command:
+           bash -c
+           "sleep 5 && python3 /myproject/manage.py makemigrations &&
+           python3 /myproject/manage.py migrate &&
+           cd /myproject &&
+           gunicorn myproject.wsgi -b 0.0.0.0:8000"
+       depends_on:
+           - db
+       volumes:
+           - ./environment/myproject:/myproject
+       expose:
+         - "8000"
+    db:
+        build:
+          context: ./environment/psql
+          dockerfile: Dockerfile
+        environment:
+             - POSTGRES_PASSWORD=docker
+             - POSTGRES_USER=docker
+             - POSTGRES_DB=docker_db
+        restart: always
+        container_name: pg01
+        expose:
+          - "5432"
+        ports:
+          - "5432:5432"
+        volumes:
+          - ${PWD}/data/:/var/lib/postgresql/data/
+
+
